@@ -6,16 +6,22 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.sample.DeleteWindowController">
    <children>
-      <VBox layoutX="7.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox layoutX="7.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <TextFlow prefHeight="200.0" prefWidth="200.0" />
-            <HBox alignment="TOP_RIGHT" spacing="10.0">
+            <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="503.0" text="Label" VBox.vgrow="ALWAYS">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <HBox alignment="TOP_RIGHT" spacing="10.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button mnemonicParsing="false" prefWidth="58.0" text="Ok" />
-                  <Button mnemonicParsing="false" text="Отмена" />
+                  <Button mnemonicParsing="false" onAction="#handleOk" prefWidth="58.0" text="Ok" />
+                  <Button mnemonicParsing="false" onAction="#handleCancel" text="Отмена" />
                </children>
                <VBox.margin>
                   <Insets />

@@ -25,7 +25,7 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="d9ba4d35-0be1-499a-a4ce-e38eae51736b">
-        <schema name="listbook" object-types="table" />
+        <schema name="listbook" object-types="column, constraint, function, index, procedure, table, trigger, view" />
       </connection>
     </loaded-nodes>
   </component>

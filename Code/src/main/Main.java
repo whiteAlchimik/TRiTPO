@@ -5,27 +5,28 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import main.view.View;
+import main.controller.Controller;
+import main.model.RecordListName;
+import main.sample.AddListNameWindowController;
+import main.sample.DeleteWindowController;
+import main.sample.MainWindowController;
 
 import java.io.IOException;
 
 public class Main extends Application {
-    private static Stage stageAddBookNameWindow = null;
-    private static Stage stageAddListNameWindow = null;
-    private static Stage stageDeleteWindow = null;
+    private Stage primaryStage;
+    private Parent root;
 
-    private static final String URL = "jdbc:mysql://localhost:3306/listbook";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
+    private Controller controller;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/main/sample/MainWindow.fxml"));
-        primaryStage.setTitle("MainWindow");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+        this.primaryStage = primaryStage;
 
-        View view = new View();
+        this.controller = new Controller();
+
+        this.initMainWindow();
+
        /* try {
             Driver driver = new FabricMySQLDriver();
             DriverManager.registerDriver(driver);
@@ -45,77 +46,107 @@ public class Main extends Application {
 
     }
 
+    public void initMainWindow() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/main/sample/MainWindow.fxml"));
+            //this.root = FXMLLoader.load(getClass().getResource("/main/sample/MainWindow.fxml"));
+            this.root = (Parent)loader.load();
+            primaryStage.setTitle("MainWindow");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+            MainWindowController mainWindowController = loader.getController();
+            mainWindowController.setMain(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public static void main(String[] args) {
         launch(args);
     }
 
+    public Controller getController() {
+        return this.controller;
+    }
+
     //отобразить окно AddListNameWindow
-    public static void viewAddListNameWindow() {
-        if(stageAddListNameWindow == null) {
-            try {
-                stageAddListNameWindow = new Stage();
-                Parent root = FXMLLoader.load(Main.class.getResource("/main/sample/AddListNameWindow.fxml"));
-                stageAddListNameWindow.setScene(new Scene(root));
-                stageAddListNameWindow.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public boolean viewAddListNameWindow(RecordListName recordListName) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/main/sample/AddListNameWindow.fxml"));
+            //Parent root = FXMLLoader.load(getClass().getResource("/main/sample/AddListNameWindow.fxml"));
+            Parent root = (Parent)loader.load();
+
+            Stage stageAddListNameWindow = new Stage();
+            stageAddListNameWindow.setScene(new Scene(root));
+            stageAddListNameWindow.initOwner(this.primaryStage);
+
+            AddListNameWindowController addListNameWindowController = loader.getController();
+            addListNameWindowController.setStage(stageAddListNameWindow);
+            addListNameWindowController.setMain(this);
+            addListNameWindowController.setRecordListName(recordListName);
+
+            //stageAddListNameWindow.show();
+
+            stageAddListNameWindow.showAndWait();
+
+            boolean isOkClicked = addListNameWindowController.isOkClicked();
+            addListNameWindowController.resetPointers();
+
+            return isOkClicked;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
     //отобразить окно AddBookNameWindow
-    public static void viewAddBookNameWindow() {
+    /*public void viewAddBookNameWindow() {
         if(stageAddBookNameWindow == null) {
             try {
                 stageAddBookNameWindow = new Stage();
-                Parent root = FXMLLoader.load(Main.class.getResource("/main/sample/AddBookNameWindow.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/sample/AddBookNameWindow.fxml"));
+                //Parent root = FXMLLoader.load(Main.class.getResource("/main/sample/AddBookNameWindow.fxml"));
+                Parent root = (Parent)loader.load();
                 stageAddBookNameWindow.setScene(new Scene(root));
                 stageAddBookNameWindow.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-    }
+        else {
+            stageAddBookNameWindow.show();
+        }
+    }*/
 
     //отобразить окно DeleteWindow
-    public static void viewDeleteWindow() {
-        if(stageDeleteWindow == null) {
-            try {
-                stageDeleteWindow = new Stage();
-                Parent root = FXMLLoader.load(Main.class.getResource("/main/sample/DeleteWindow.fxml"));
-                stageDeleteWindow.setScene(new Scene(root));
-                stageDeleteWindow.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+    public boolean viewDeleteWindow(String str) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/main/sample/DeleteWindow.fxml"));
+            //Parent root = FXMLLoader.load(Main.class.getResource("/main/sample/DeleteWindow.fxml"));
+            Parent root = (Parent) loader.load();
 
-    //скрыть окно AddListNameWindow
-    public static void hideAddListNameWindow() {
-        if(stageAddListNameWindow != null) {
-            stageAddListNameWindow.close();
-            stageAddListNameWindow = null;
-        }
-        return;
-    }
+            Stage stageDeleteWindow = new Stage();
+            stageDeleteWindow.setScene(new Scene(root));
+            stageDeleteWindow.initOwner(this.primaryStage);
 
-    //скрыть окно AddBookNameWindow
-    public static void hideAddBookNameWindow() {
-        if(stageAddBookNameWindow != null) {
-            stageAddBookNameWindow.close();
-            stageAddBookNameWindow = null;
-        }
-        return;
-    }
+            DeleteWindowController deleteWindowController = loader.getController();
+            deleteWindowController.setStage(stageDeleteWindow);
+            deleteWindowController.setStr(str);
 
-    //скрыть окно DeleteWindow
-    public static void hideDeleteWindow() {
-        if(stageDeleteWindow != null) {
-            stageDeleteWindow.close();
-            stageDeleteWindow = null;
+            stageDeleteWindow.showAndWait();
+
+            boolean isOkClicked = deleteWindowController.isOkClicked();
+            deleteWindowController.resetPointers();
+
+            return isOkClicked;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
-        return;
     }
 }

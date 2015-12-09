@@ -64,7 +64,8 @@ public class RecordListNameDAO {
     }
 
     //создание/обновление RecordListName
-    public void updateRecordListName(RecordListName recordListName) {
+    public int updateRecordListName(RecordListName recordListName) {
+        int id = 0;
         try {
             PreparedStatement preparedStatement = null;
             if(recordListName.getId() > 0) {
@@ -77,9 +78,11 @@ public class RecordListNameDAO {
             preparedStatement.setString(1, recordListName.getListName());
             preparedStatement.executeUpdate();
             preparedStatement.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return 0;
     }
 
     //удаление

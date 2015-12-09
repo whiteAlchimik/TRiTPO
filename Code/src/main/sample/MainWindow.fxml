@@ -25,7 +25,7 @@
       </HBox>
       <SplitPane dividerPositions="0.5" VBox.vgrow="ALWAYS">
          <items>
-            <ListView minHeight="-Infinity" minWidth="-Infinity" />
+            <ListView fx:id="listNameList" minHeight="-Infinity" minWidth="-Infinity" />
             <TableView minHeight="-Infinity" minWidth="-Infinity">
               <columns>
                 <TableColumn prefWidth="137.0" text="Book Name" />
