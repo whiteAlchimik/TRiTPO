@@ -64,8 +64,7 @@ public class RecordListNameDAO {
     }
 
     //создание/обновление RecordListName
-    public int updateRecordListName(RecordListName recordListName) {
-        int id = 0;
+    public void updateRecordListName(RecordListName recordListName) {
         try {
             PreparedStatement preparedStatement = null;
             if(recordListName.getId() > 0) {
@@ -79,10 +78,28 @@ public class RecordListNameDAO {
             preparedStatement.executeUpdate();
             preparedStatement.close();
 
+            recordListName.setId(this.getRecordListNameName(recordListName.getListName()).getId());
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;
+    }
+
+    //получение RecordListName  по имени
+    public RecordListName getRecordListNameName(String name) {
+        RecordListName recordListName = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM listname WHERE listname = ?");
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                recordListName = this.getRecordListNameFromRs(resultSet);
+            }
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return recordListName;
     }
 
     //удаление

@@ -35,7 +35,10 @@
     </connection>
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-list connection-id="d9ba4d35-0be1-499a-a4ce-e38eae51736b" dataset="listbook.tablebook15" active-filter-id="EMPTY_FILTER" />
+    <filter-list connection-id="d9ba4d35-0be1-499a-a4ce-e38eae51736b" dataset="listbook.tablebook16" active-filter-id="EMPTY_FILTER" />
     <filter-list connection-id="d9ba4d35-0be1-499a-a4ce-e38eae51736b" dataset="listbook.listname" active-filter-id="EMPTY_FILTER" />
+    <filter-list connection-id="d9ba4d35-0be1-499a-a4ce-e38eae51736b" dataset="listbook.tablebook14" active-filter-id="" />
   </component>
   <component name="DBNavigator.Project.MethodExecutionManager">
     <method-browser />

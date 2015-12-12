@@ -6,7 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import main.controller.Controller;
+import main.model.Book;
 import main.model.RecordListName;
+import main.sample.AddBookNameWindowController;
 import main.sample.AddListNameWindowController;
 import main.sample.DeleteWindowController;
 import main.sample.MainWindowController;
@@ -26,24 +28,6 @@ public class Main extends Application {
         this.controller = new Controller();
 
         this.initMainWindow();
-
-       /* try {
-            Driver driver = new FabricMySQLDriver();
-            DriverManager.registerDriver(driver);
-            Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            RecordListNameDAO recordListNameDAO = new RecordListNameDAO(connection);
-            RecordListName recordListName = new RecordListName(6, "Разноеееееее");
-            recordListNameDAO.updateRecordListName(recordListName);
-            //List<RecordListName> recordListName = recordListNameDAO.getRecordListNameList();
-            if(!connection.isClosed())
-            {
-                System.out.println("Соединение с БД установлена");
-            }
-        }
-        catch(SQLException e) {
-            e.printStackTrace();
-        }*/
-
     }
 
     public void initMainWindow() {
@@ -103,24 +87,35 @@ public class Main extends Application {
     }
 
     //отобразить окно AddBookNameWindow
-    /*public void viewAddBookNameWindow() {
-        if(stageAddBookNameWindow == null) {
-            try {
-                stageAddBookNameWindow = new Stage();
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/main/sample/AddBookNameWindow.fxml"));
-                //Parent root = FXMLLoader.load(Main.class.getResource("/main/sample/AddBookNameWindow.fxml"));
-                Parent root = (Parent)loader.load();
-                stageAddBookNameWindow.setScene(new Scene(root));
-                stageAddBookNameWindow.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public boolean viewAddBookNameWindow(Book book) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/main/sample/AddBookNameWindow.fxml"));
+            //Parent root = FXMLLoader.load(getClass().getResource("/main/sample/AddListNameWindow.fxml"));
+            Parent root = (Parent)loader.load();
+
+            Stage stageAddBookNameWindow = new Stage();
+            stageAddBookNameWindow.setScene(new Scene(root));
+            stageAddBookNameWindow.initOwner(this.primaryStage);
+
+            AddBookNameWindowController addBookNameWindowController = loader.getController();
+            addBookNameWindowController.setStage(stageAddBookNameWindow);
+            addBookNameWindowController.setMain(this);
+            addBookNameWindowController.setBook(book);
+
+            //stageAddListNameWindow.show();
+
+            stageAddBookNameWindow.showAndWait();
+
+            boolean isOkClicked = addBookNameWindowController.isOkClicked();
+            addBookNameWindowController.resetPointers();
+
+            return isOkClicked;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
-        else {
-            stageAddBookNameWindow.show();
-        }
-    }*/
+    }
 
     //отобразить окно DeleteWindow
     public boolean viewDeleteWindow(String str) {
